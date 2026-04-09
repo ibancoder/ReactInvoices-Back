@@ -1,3 +1,17 @@
 spring:
-  application:
-    name: invoices-back
+  datasource:
+    url: jdbc:mysql://localhost:3306/invoices_db
+    username: root
+    password: 3st3lA44
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQLDialect
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+application:
+  name: invoices-back
