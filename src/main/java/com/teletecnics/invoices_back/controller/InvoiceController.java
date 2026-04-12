@@ -1,6 +1,8 @@
 package com.teletecnics.invoices_back.controller;
 
+import com.teletecnics.invoices_back.dto.InvoiceResponseDTO;
 import com.teletecnics.invoices_back.model.Invoice;
+import com.teletecnics.invoices_back.repository.ClientRepository;
 import com.teletecnics.invoices_back.repository.InvoiceRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,14 +15,15 @@ import java.util.List;
 @CrossOrigin(origins = "*") //En producción, cambiar "*" por la URL del frontend
 public class InvoiceController {
     private final InvoiceRepository invoiceRepository;
-
-    public InvoiceController(InvoiceRepository invoiceRepository){
+    private final ClientRepository clientRepository;
+    public InvoiceController(InvoiceRepository invoiceRepository, ClientRepository clientRepository){
         this.invoiceRepository = invoiceRepository;
+        this.clientRepository = clientRepository;
     }
 
     @GetMapping
-    public List<Invoice> getAll(){
-        return invoiceRepository.findAll();
+    public List<InvoiceResponseDTO> getAll(){
+        return invoiceRepository.findAll().stream().map(this::toDTO).toList();
     }
 
     @GetMapping("/{id}")

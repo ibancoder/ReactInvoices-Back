@@ -17,6 +17,7 @@ public class Invoice {
 
     private String numeroFactura;
     private LocalDate fechaFactura; //LocalDate mapea bien con strings de fecha
+    @Column(name="cliente_id")
     private Long clienteId;
 
     @ManyToOne
