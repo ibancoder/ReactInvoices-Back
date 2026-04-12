@@ -47,4 +47,15 @@ public class InvoiceMapper {
         return dto;
 
     }
+
+    public static void updateEntity (Invoice i, InvoiceRequestDTO dto){
+        i.setNumeroFactura(dto.getNumeroFactura());
+        i.setFechaFactura(dto.getFechaFactura());
+        i.setClienteId(dto.getClienteId());
+        i.setDescripcion(dto.getDescripcion());
+        i.setBaseImponible(dto.getBaseImponible());
+        i.setTipoIva(dto.getTipoIva());
+        i.setFechaPrevistaCobro(dto.getFechaPrevistaCobro());
+        i.setCobrada(dto.getCobrada());
+    }
 }

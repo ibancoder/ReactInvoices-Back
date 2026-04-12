@@ -1,6 +1,8 @@
 package com.teletecnics.invoices_back.controller;
 
 import com.teletecnics.invoices_back.dto.InvoiceResponseDTO;
+import com.teletecnics.invoices_back.dto.InvoiceRequestDTO;
+import com.teletecnics.invoices_back.mapper.InvoiceMapper;
 import com.teletecnics.invoices_back.model.Invoice;
 import com.teletecnics.invoices_back.repository.ClientRepository;
 import com.teletecnics.invoices_back.repository.InvoiceRepository;
@@ -22,8 +24,8 @@ public class InvoiceController {
     }
 
     @GetMapping
-    public List<InvoiceResponseDTO> getAll(){
-        return invoiceRepository.findAll().stream().map(this::toDTO).toList();
+    public List<Invoice> getAll(){
+        return invoiceRepository.findAll();
     }
 
     @GetMapping("/{id}")
@@ -33,27 +35,21 @@ public class InvoiceController {
     }
 
     @PostMapping
-    public ResponseEntity<Invoice> create(@RequestBody Invoice invoice){
+    public ResponseEntity<InvoiceResponseDTO> create(@RequestBody InvoiceRequestDTO dto){
+        Invoice invoice = InvoiceMapper.toEntity(dto);
         calculateInvoiceTotals(invoice);
-        Invoice savedInvoice = invoiceRepository.save(invoice);
-        return new ResponseEntity<>(savedInvoice, HttpStatus.CREATED);
+        Invoice saved = invoiceRepository.save(invoice);
+        return new ResponseEntity<>(InvoiceMapper.toDTO(saved), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Invoice> update(@PathVariable Long id, @RequestBody Invoice invoiceData) {
+    public ResponseEntity<InvoiceResponseDTO> update(@PathVariable Long id, @RequestBody InvoiceRequestDTO dto) {
         return invoiceRepository.findById(id)
                 .map(invoice -> {
-                    invoice.setNumeroFactura(invoiceData.getNumeroFactura());
-                    invoice.setFechaFactura(invoiceData.getFechaFactura());
-                    invoice.setClienteId(invoiceData.getClienteId());
-                    invoice.setDescripcion(invoiceData.getDescripcion());
-                    invoice.setBaseImponible(invoiceData.getBaseImponible());
-                    invoice.setTipoIva(invoiceData.getTipoIva());
-                    invoice.setFechaPrevistaCobro(invoiceData.getFechaPrevistaCobro());
-                    invoice.setCobrada(invoiceData.getCobrada());
+                    InvoiceMapper.updateEntity(invoice, dto);
 
                     calculateInvoiceTotals(invoice);
-                    return ResponseEntity.ok(invoiceRepository.save(invoice));
+                    return ResponseEntity.ok(InvoiceMapper.toDTO(invoice));
                 })
                 .orElse(ResponseEntity.notFound().build());
     }

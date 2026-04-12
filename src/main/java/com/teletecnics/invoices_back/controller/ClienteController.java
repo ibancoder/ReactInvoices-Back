@@ -1,5 +1,8 @@
 package com.teletecnics.invoices_back.controller;
 
+import com.teletecnics.invoices_back.dto.ClientRequestDTO;
+import com.teletecnics.invoices_back.dto.ClientResponseDTO;
+import com.teletecnics.invoices_back.mapper.ClientMapper;
 import com.teletecnics.invoices_back.model.Client;
 import com.teletecnics.invoices_back.repository.ClientRepository;
 import org.springframework.http.HttpStatus;
@@ -30,23 +33,20 @@ public class ClienteController {
     }
 
     @PostMapping
-    public ResponseEntity<Client> create(@RequestBody Client client){
-        Client savedClient = clientRepository.save(client);
-        return new ResponseEntity<>(savedClient, HttpStatus.CREATED);
+    public ResponseEntity<ClientResponseDTO> create(@RequestBody ClientRequestDTO dto){
+        Client client = ClientMapper.toEntity(dto);
+        Client saved = clientRepository.save(client);
+
+        return new ResponseEntity<>(ClientMapper.toDTO(saved), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Client> update(@PathVariable Long id, @RequestBody Client clientData) {
+    public ResponseEntity<ClientResponseDTO> update(@PathVariable Long id, @RequestBody ClientRequestDTO dto) {
         return clientRepository.findById(id)
                 .map(client -> {
-                    client.setCif(clientData.getCif());
-                    client.setNombre(clientData.getNombre());
-                    client.setDireccion(clientData.getDireccion());
-                    client.setCiudad(clientData.getCiudad());
-                    client.setCodigoPostal(clientData.getCodigoPostal());
-                    client.setEmail(clientData.getEmail());
-                    client.setTelefono(clientData.getTelefono());
-                    return ResponseEntity.ok(clientRepository.save(client));
+                    ClientMapper.updateEntity(client, dto);
+                    return ResponseEntity.ok(ClientMapper.toDTO(clientRepository.save(client))
+                    );
                 })
                 .orElse(ResponseEntity.notFound().build());
     }

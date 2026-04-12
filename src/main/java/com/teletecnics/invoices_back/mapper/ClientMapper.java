@@ -32,4 +32,15 @@ public class ClientMapper {
 
         return dto;
     }
+
+    public static void updateEntity(Client c, ClientRequestDTO dto){
+        c.setCif(dto.getCif());
+        c.setNombre(dto.getNombre());
+        c.setDireccion(dto.getDireccion());
+        c.setCiudad(dto.getCiudad());
+        c.setCodigoPostal(dto.getCodigoPostal());
+        c.setEmail(dto.getEmail());
+        c.setTelefono(dto.getTelefono());
+    }
+
 }
