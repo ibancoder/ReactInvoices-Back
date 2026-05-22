@@ -6,10 +6,13 @@ import com.teletecnics.invoices_back.mapper.InvoiceMapper;
 import com.teletecnics.invoices_back.model.Invoice;
 import com.teletecnics.invoices_back.repository.ClientRepository;
 import com.teletecnics.invoices_back.repository.InvoiceRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -32,6 +35,26 @@ public class InvoiceController {
     public ResponseEntity<Invoice> getById(@PathVariable Long id){
         return invoiceRepository.findById(id)
                 .map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/search/nombre")
+    public List<InvoiceResponseDTO> searchByClientName(@RequestParam String nombre){
+        return invoiceRepository.findByCliente_NombreContainingIgnoreCase(nombre).stream().map(InvoiceMapper::toDTO).toList();
+    }
+
+    //buscador completo
+    @GetMapping("/search")
+    public Page<InvoiceResponseDTO> searchInvoices(
+            @RequestParam(required = false) String nombre,
+            @RequestParam(required = false) String fechaDesde,
+            @RequestParam(required = false) String fechaHasta,
+            @RequestParam(required = false) Boolean cobrada,
+            Pageable pageable
+    ){
+        LocalDate desde = (fechaDesde != null) ? LocalDate.parse(fechaDesde) : null;
+        LocalDate hasta = (fechaHasta != null) ? LocalDate.parse(fechaHasta) : null;
+
+        return invoiceRepository.searchInvoices(nombre, desde, hasta, cobrada, pageable).map(InvoiceMapper::toDTO);
     }
 
     @PostMapping

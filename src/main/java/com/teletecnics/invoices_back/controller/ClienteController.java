@@ -32,6 +32,20 @@ public class ClienteController {
                 .map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/search/nombre")
+    public List<ClientResponseDTO> searchByName(@RequestParam String nombre){
+
+        return clientRepository.findByNombreContainingIgnoreCase(nombre)
+                .stream()
+                .map(ClientMapper::toDTO)
+                .toList();
+    }
+
+    @GetMapping("/search/cif")
+    public List<ClientResponseDTO> searchByCif(@RequestParam String cif){
+        return clientRepository.findByCifContainingIgnoreCase(cif).stream().map(ClientMapper::toDTO).toList();
+    }
+
     @PostMapping
     public ResponseEntity<ClientResponseDTO> create(@RequestBody ClientRequestDTO dto){
         Client client = ClientMapper.toEntity(dto);
