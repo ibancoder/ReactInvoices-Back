@@ -29,17 +29,19 @@ public class Invoice {
     private Integer tipoIva; //0 o 21
     private Double importeIva;
     private Double totalFactura;
-
+    private LocalDate fechaPrevistaCobro;
+    private Boolean cobrada;
 
     //Constructor
     public Invoice(){
 
     }
+
+    //Getters and Setters
     public Boolean getCobrada() {
         return cobrada;
     }
 
-    //Getters and Setters
     public void setCobrada(Boolean cobrada) {
         this.cobrada = cobrada;
     }
@@ -132,6 +134,5 @@ public class Invoice {
         this.id = id;
     }
 
-    private LocalDate fechaPrevistaCobro;
-    private Boolean cobrada;
+
 }
