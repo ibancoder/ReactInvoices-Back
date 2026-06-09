@@ -34,7 +34,7 @@ public class SupplierMapper {
         return dto;
     }
 
-    public static void updateEntity(Supplier s, SupplierResponseDTO dto){
+    public static void updateEntity(Supplier s, SupplierRequestDTO dto){
         s.setCif(dto.getCif());
         s.setNombre(dto.getNombre());
         s.setDireccion(dto.getDireccion());

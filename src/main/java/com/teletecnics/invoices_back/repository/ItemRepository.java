@@ -9,4 +9,5 @@ public interface ItemRepository extends JpaRepository <Item, Long> {
 
     //Buscar por descripcion de item
     List<Item> findByDescripcionContainingIgnoreCase (String descripcion);
+    List<Item> findByProveedor_nombreContainingIgnoreCase(String nombre);
 }
