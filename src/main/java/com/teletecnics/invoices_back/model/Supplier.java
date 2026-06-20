@@ -87,11 +87,11 @@ public class Supplier {
         this.email = email;
     }
 
-    public String getTelfono() {
+    public String getTelefono() {
         return telfono;
     }
 
-    public void setTelfono(String telfono) {
+    public void setTelefono(String telefono) {
         this.telfono = telfono;
     }
 

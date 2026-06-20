@@ -15,7 +15,7 @@ public class SupplierMapper {
         s.setCiudad(dto.getCiudad());
         s.setCodigoPostal(dto.getCodigoPostal());
         s.setEmail(dto.getEmail());
-        s.setTelfono(dto.getTelefono());
+        s.setTelefono(dto.getTelefono());
 
         return s;
     }
@@ -28,8 +28,8 @@ public class SupplierMapper {
         dto.setDireccion(s.getDireccion());
         dto.setCiudad(s.getCiudad());
         dto.setCodigoPostal(s.getCodigoPostal());
-        dto.setEmail(dto.getEmail());
-        dto.setTelefono(dto.getTelefono());
+        dto.setEmail(s.getEmail());
+        dto.setTelefono(s.getTelefono());
 
         return dto;
     }
@@ -41,6 +41,6 @@ public class SupplierMapper {
         s.setCiudad(dto.getCiudad());
         s.setCodigoPostal(dto.getCodigoPostal());
         s.setEmail(dto.getEmail());
-        s.setTelfono(dto.getTelefono());
+        s.setTelefono(dto.getTelefono());
     }
 }
