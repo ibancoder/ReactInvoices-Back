@@ -21,7 +21,7 @@ public class Supplier {
     private String ciudad;
     private String codigoPostal;
     private String email;
-    private String telfono;
+    private String telefono;
 
     //Constructor
     public Supplier(){
@@ -88,11 +88,11 @@ public class Supplier {
     }
 
     public String getTelefono() {
-        return telfono;
+        return telefono;
     }
 
     public void setTelefono(String telefono) {
-        this.telfono = telfono;
+        this.telefono = telefono;
     }
 
 
